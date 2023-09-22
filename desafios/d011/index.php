@@ -1,9 +1,3 @@
-<!-- 
-Este código HTML com PHP cria uma página que permite ao usuário inserir o preço de um produto e um percentual de reajuste. 
-Ao submeter o formulário, a página calcula o novo preço do produto com o reajuste aplicado. 
-Os valores inseridos pelo usuário são pré-definidos na segunda vez que o formulário é exibido (retroalimentado). 
-O resultado é exibido na seção "Resultado do Reajuste".
--->
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -16,55 +10,50 @@ O resultado é exibido na seção "Resultado do Reajuste".
 <body>
     <?php 
         // Capturando os dados do formulário retroalimentado
-        $precoDoProduto = $_GET['precoDoProduto'] ?? 0; // Obtém o preço do produto do formulário, ou assume 0 se não foi definido
-        $porcentual = $_GET['porcentual'] ?? 0; // Obtém o percentual de reajuste do formulário, ou assume 0 se não foi definido
-
-        $anoAtual = date("Y"); // Obtém o ano atual usando a função date do PHP
+        $totalSegundos = $_GET['totalSegundos'] ?? 0; // Obtém o preço do produto do formulário, ou assume 0 se não foi definido
     ?>
 
     <main style="margin-top: 1px"> <!-- Define um bloco principal na página -->
-        <h1>Reajustador de Preços</h1>
+        <h1>Calculadora de Tempo</h1>
         
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="get"> <!-- Cria um formulário que envia os dados para a mesma página PHP -->
-            <label for="precoDoProduto">Preço do Produto (R$)</label>
-            <input type="number" name="precoDoProduto" id="id-precoDoProduto" value="<?=$precoDoProduto?>"> <!-- Campo de entrada de preço do produto, com valor pré-definido -->
-
-            <label for="porcentual">Qual será o porcentual de reajuste? (<span id="id-valorPorcentual"><?= $porcentual ?>%</span>)</label> <!-- Rótulo para o campo de entrada de percentual de reajuste -->
-            <input type="range" min="0" max="100" step="1" name="porcentual" id="id-porcentual" value="<?= $porcentual ?>"> <!-- Campo de entrada de percentual de reajuste, com valor pré-definido -->
-
+            
+            <label for="totalSegundos">Qual o total em segundos?</label>
+            <input type="number" name="totalSegundos" id="id-totalSegundos" value="<?=$totalSegundos?>">
             
             <!-- Botão para submeter o formulário -->
-            <input type="submit" value="Reajustar">
+            <input type="submit" value="Calcular">
         </form>
     </main>
 
-    <section id="id-resultado" style="width: 600px;"> <!-- Define uma seção para exibir o resultado -->
-        <h2>Resultado do Reajuste</h2>
+    <section id="id-resultado" style="width: 620px;"> <!-- Define uma seção para exibir o resultado -->
+        <h2>Totalizando tudo</h2>
         
         <?php 
-            // Calculando o reajuste do preço do produto
-            function reajustarProduto($preco, $porcentual) {
-                $valorReajustado = $preco + ($preco * ($porcentual / 100));
-                return $valorReajustado;
+            // Esta função é fundamental para o cálculo do tempo com base no total de segundos fornecido pelo usuário.
+            function calcularTempo($totalS) {
+                $semanas = floor($totalS / (60 * 60 * 24 * 7)); // Calcula o número de semanas
+                $dias = floor(($totalS % (60 * 60 * 24 * 7)) / (60 * 60 * 24)); // Calcula o número de dias
+                $horas = floor(($totalS % (60 * 60 * 24)) / (60 * 60)); // Calcula o número de horas
+                $minutos = floor(($totalS % (60 * 60)) / 60); // Calcula o número de minutos
+                $segundos = $totalS % 60; // Calcula o número de segundos
+            
+                return array( // Retorna um array com os respectivos resultados
+                    "semanas" => $semanas,
+                    "dias" => $dias,
+                    "horas" => $horas,
+                    "minutos" => $minutos,
+                    "segundos" => $segundos
+                );
             }
             
-            $valorReajustado = reajustarProduto($precoDoProduto, $porcentual);
-            $padrao = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
+            $tempo = calcularTempo($totalSegundos); // Aqui, a função calcularTempo é chamada com o valor armazenado em $totalSegundos. O resultado é armazenado na variável $tempo     
 
-            echo "<p>O produto que custava ". numfmt_format_currency($padrao, $precoDoProduto, "BRL")  .", com <strong>$porcentual% de aumento</strong> vai passar a custar <strong>". numfmt_format_currency($padrao, $valorReajustado, "BRL") ."</strong> a partir de agora.</p>"; // Exibe o resultado do reajuste
+            // Mostra o resultado em formato de lista
+            echo "<p>Analisando o valor que você digitou, <strong>". number_format($totalSegundos, 0, ",", ".") ." segundos</strong> equivalem a: <ul><li>$tempo[semanas] semanas <li>$tempo[dias] dias <li>$tempo[horas] horas <li>$tempo[minutos] minutos <li>$tempo[segundos] segundos</ul></p>"; 
         ?>
     </section>
 
-    <script>
-        //Capturando os dados do form pelo ID
-        var inputPorcentual = document.getElementById('id-porcentual');
-        var spanValorPorcentual = document.getElementById('id-valorPorcentual');
-
-        // Atualiza o valor do percentual exibido conforme o usuário move o controle deslizante
-        inputPorcentual.addEventListener('input', function() {
-            spanValorPorcentual.textContent = inputPorcentual.value + '%';
-        });
-    </script>
 </body>
 </html>
 <!-- Fim do código -->
