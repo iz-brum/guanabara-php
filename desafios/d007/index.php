@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php 
-        // Capturando os dados do formulário retroalimentado
+        // Capturando o valor do salário do formulário retroalimentado
         $salario = $_GET['salario'] ?? 0; 
     ?>
 
@@ -19,7 +19,7 @@
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="get">
             <label for="salario">Salário (R$):</label>
             
-            <!-- Campo de entrada para o primeiro valor, com valor pré-definido -->
+            <!-- Campo de entrada para o salário, com valor pré-definido -->
             <input type="number" name="salario" id="id-salario" value="<?=$salario?>">
             
             <!-- Botão para submeter o formulário -->
@@ -31,16 +31,16 @@
         <h2>Resultado Final</h2>
         
         <?php 
-            
-            $qSalarioMinimo = (int) ($salario/1380); 
-            $qSalarioQuebrado = ($salario%1380);
+            // Calcula quantos salários mínimos o valor do salário representa
+            $qSalarioMinimo = (int) ($salario / 1380); 
+            $qSalarioQuebrado = ($salario % 1380);
             
             // Formatação de moedas com internacionalização
-            // Blioteca intl (Internalization PHP)
+            // Biblioteca intl (Internalization PHP)
             $padraoMoeda = numfmt_create("pt_BR", NumberFormatter::CURRENCY);
 
-            // Exibe o resultado da soma
-            echo "<p>Quem recebe um salário de ". numfmt_format_currency($padraoMoeda, $salario, "BRL") ." recebe <strong>$qSalarioMinimo salários mínimos</strong> + ". numfmt_format_currency($padraoMoeda, $qSalarioQuebrado, "BRL") .".</p>";
+            // Exibe o resultado
+            echo "<p>Quem recebe um salário de " . numfmt_format_currency($padraoMoeda, $salario, "BRL") . " recebe <strong>$qSalarioMinimo salários mínimos</strong> + " . numfmt_format_currency($padraoMoeda, $qSalarioQuebrado, "BRL") . ".</p>";
         ?>
     </section>
 </body>
@@ -48,6 +48,6 @@
 
 <!-- 
 
-Este código HTML com PHP cria um formulário para inserir dois valores, calcular a soma e exibir o resultado. Ele usa o método GET para enviar os dados e a mesma página PHP para processar os valores. Os valores inseridos pelo usuário são pré-definidos na segunda vez que o formulário é exibido (retroalimentado). O resultado da soma é exibido na seção "Resultado da soma".
+Este código HTML com PHP cria um formulário para inserir um salário em reais (R$). Ao submeter o formulário, a página calcula quantos salários mínimos essa quantia representa, bem como a parte fracionária. O valor inserido pelo usuário é pré-definido na segunda vez que o formulário é exibido (retroalimentado). O resultado é exibido na seção "Resultado Final".
 
  -->
