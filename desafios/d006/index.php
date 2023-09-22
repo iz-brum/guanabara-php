@@ -41,9 +41,21 @@
             $quociente = (int) ($dividendo / $divisor);
             $resto = $dividendo % $divisor;
             
-            // Exibe o resultado da análise da divisão
-            echo "<p> $dividendo : $divisor --> q: <strong> $quociente</strong> e r: <strong>$resto</strong>.</p>";
+            
+            
         ?>
+        <!--  Exibe o resultado da análise da divisão de forma anatômica -->
+        <table class="divisao">
+            <tr>
+                <td><?=$dividendo?></td>
+                <td><?=$divisor?></td>
+            </tr>
+
+            <tr>
+                <td><?=$resto?></td>
+                <td><?=$quociente?></td>
+            </tr>
+        </table>
     </section>
 </body>
 </html>
