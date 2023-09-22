@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php 
-        // Capturando os dados do formulário retroalimentado
+        // Capturando o número do formulário retroalimentado
         $numero = $_GET['numero'] ?? 0; 
     ?>
 
@@ -19,11 +19,11 @@
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="get">
             <label for="numero">Número:</label>
             
-            <!-- Campo de entrada para o primeiro valor, com valor pré-definido -->
+            <!-- Campo de entrada para o número, com valor pré-definido -->
             <input type="number" name="numero" id="id-numero" value="<?=$numero?>">
             
             <!-- Botão para submeter o formulário -->
-            <input type="submit" value="Calcular Raizes">
+            <input type="submit" value="Calcular Raízes">
         </form>
     </main>
 
@@ -31,12 +31,12 @@
         <h2>Resultado Final</h2>
         
         <?php 
-            
-            $raizQuadrada = ($numero**(1/2));
-            $raizCubica = ($numero**(1/3)); 
+            // Calcula a raiz quadrada e a raiz cúbica do número
+            $raizQuadrada = ($numero ** (1/2));
+            $raizCubica = ($numero ** (1/3)); 
 
-            // Exibe o resultado das raizes
-            echo "<p>Analisando o <strong>número $numero</strong>, temos: <ul><li> A sua raiz quadrada é <strong>". number_format($raizQuadrada, 3, ",", ".") ."</strong> <li> A sua raiz cubica é <strong>". number_format($raizCubica, 3, ",", ".") ."</strong> </ul> </p>";
+            // Exibe o resultado das raízes
+            echo "<p>Analisando o <strong>número $numero</strong>, temos: <ul><li> A sua raiz quadrada é <strong>" . number_format($raizQuadrada, 3, ",", ".") . "</strong></li><li> A sua raiz cúbica é <strong>" . number_format($raizCubica, 3, ",", ".") . "</strong></li></ul></p>";
         ?>
     </section>
 </body>
@@ -44,6 +44,6 @@
 
 <!-- 
 
-Este código HTML com PHP cria um formulário para inserir dois valores, calcular a soma e exibir o resultado. Ele usa o método GET para enviar os dados e a mesma página PHP para processar os valores. Os valores inseridos pelo usuário são pré-definidos na segunda vez que o formulário é exibido (retroalimentado). O resultado da soma é exibido na seção "Resultado da soma".
+Este código HTML com PHP cria uma página que permite ao usuário inserir um número. Ao submeter o formulário, a página calcula a raiz quadrada e a raiz cúbica do número. O valor inserido pelo usuário é pré-definido na segunda vez que o formulário é exibido (retroalimentado). O resultado é exibido na seção "Resultado Final".
 
  -->
